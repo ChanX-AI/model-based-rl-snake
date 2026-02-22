@@ -4,6 +4,7 @@ import { Food } from "./food.js"
 
 const canvas = document.getElementById("canvas")
 const ctx = canvas.getContext("2d")
+const scoreElement = document.querySelector("h3")
 
 const WIDTH = canvas.width = 500
 const HEIGHT = canvas.height = 500
@@ -17,6 +18,7 @@ canvas.style.backgroundColor = 'grey'
 
 const player = new Snake(CELL_SIZE)
 const food = new Food(ROWS, COLS, CELL_SIZE)
+let score = 0
 
 
 let lastTime = 1
@@ -51,14 +53,16 @@ async function animate(currentTime) {
     lastTime = currentTime
     await updatePolicy()
     direction = policy[player.body[0].y][player.body[0].x]
-    player.move(deltaTime, direction)
     gameOver = boundaryCheck(player.body[0]) || tailCollision(player.body)
     if (!gameOver) {
+        player.move(deltaTime, direction)
         ctx.clearRect(0, 0, WIDTH, HEIGHT)
         if (foodCollision(player.body[0], {x: food.x, y: food.y})) {
             food.update()
             const n = player.body.length - 1
             player.body.push({x: player.body[n], y: player.body[n].y})
+            score++
+            scoreElement.textContent = `Score : ${score}`
         }
         player.draw(ctx)
         food.draw(ctx)

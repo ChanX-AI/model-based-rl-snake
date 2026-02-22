@@ -2,7 +2,7 @@ import numpy as np
 from flask import Flask, render_template, jsonify, request
 from env import Grid
 
-def value_iteration(env, epochs=100, gamma=0.5, theta=1e-6):
+def value_iteration(env, epochs=100, gamma=0.5, theta=1e-3):
     state_values = np.zeros(env.size)
     policy = np.zeros(env.size, dtype='U1')
 
@@ -20,7 +20,8 @@ def value_iteration(env, epochs=100, gamma=0.5, theta=1e-6):
                     max_Qsa = max(max_Qsa, Qsa)
                 state_values[s] = max_Qsa
                 policy[s] = max(Q_val, key=Q_val.get)
-
+        if np.max(np.abs(state_values - V)) < theta:
+            break
     
     return state_values, policy
 
