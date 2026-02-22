@@ -48,12 +48,7 @@ def setEnv():
         blocks = blocks
     )
 
-    _, policy = value_iteration(env)
-    # for i in policy:
-    #     for j in i:
-    #         print(j, end=" ")
-    #     print()
-    # print("----------------------------------------------------------------")
+    state_values, policy = value_iteration(env)
     return {"policy": policy.tolist()}
 
 
