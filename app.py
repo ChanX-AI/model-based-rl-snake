@@ -2,7 +2,7 @@ import numpy as np
 from flask import Flask, render_template, jsonify, request
 from env import Grid
 
-def value_iteration(env, epochs=100, gamma=0.5, theta=1e-3):
+def value_iteration(env, epochs=100, gamma=0.5, theta=1e-5):
     state_values = np.zeros(env.size)
     policy = np.zeros(env.size, dtype='U1')
 
