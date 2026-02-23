@@ -2,9 +2,19 @@ export class Snake {
     constructor(size) {
         this.size = size
         this.timer = 0
-        this.interval = 10
+        this.interval = 1
         this.body = [
-            {x: 1, y: 1},
+            {x: 0, y: 15},
+            {x: 1, y: 15},
+            {x: 2, y: 15}
+            //{x: 5, y: 5}
+            // {x: 19, y: 19},
+            // {x: 19, y: 18},
+            // {x: 19, y: 17},
+            // {x: 19, y: 16},
+            // {x: 18, y: 16},
+            // {x: 17, y: 16},
+            // {x: 16, y: 16},
         ]
     }
 
@@ -20,10 +30,10 @@ export class Snake {
 
     move(deltaTime, direction) {
         this.update(direction)
-        if (this.timer > this.interval) {
-            //this.update(direction)
-            this.timer = 0
-        } else this.timer += deltaTime
+        // if (this.timer > this.interval) {
+        //     //this.update(direction)
+        //     this.timer = 0
+        // } else this.timer += deltaTime
     }
 
     update(direction) {

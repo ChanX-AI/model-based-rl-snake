@@ -4,7 +4,22 @@ class Grid:
         self.start = start
         self.goal = goal
         self.blocks = blocks
-        self.ACTIONS = ["RIGHT", "DOWN", "LEFT", "UP"]
+        self.state_space = self._state_space()
+        self.action_space = self._action_space()
+        self.state_space_n = size
+        self.action_space_n = len(self.action_space)
+
+    def _state_space(self):
+        states = []
+
+        for i in range(self.size[0]):
+            for j in range(self.size[1]):
+                states.append((i, j))
+            
+        return states
+    
+    def _action_space(self):
+        return ["RIGHT", "DOWN", "LEFT", "UP"]
 
     def reset(self):
         self.state = self.start
@@ -22,23 +37,32 @@ class Grid:
             next_state[0] = state[0] + 1
         elif action == "LEFT":
             next_state[1] = state[1] - 1
-        # elif action == "STAY":
-        #     pass
 
-        next_state[0] = min(next_state[0], self.size[0] - 1)
-        next_state[1] = min(next_state[1], self.size[1] - 1)
+        # next_state[0] = min(next_state[0], self.size[0] - 1)
+        # next_state[1] = min(next_state[1], self.size[1] - 1)
 
-        next_state[0] = max(next_state[0], 0)
-        next_state[1] = max(next_state[1], 0)
+        # next_state[0] = max(next_state[0], 0)
+        # next_state[1] = max(next_state[1], 0)
 
         next_state = tuple(next_state)
-
-        reward = (10 if next_state == self.goal else -1)
+        reward = -1
+        done = False
 
         if next_state in self.blocks:
             reward = -10
+            done = True
+        elif (
+                next_state[0] < 0 or
+                next_state[0] >= self.size[0] or
+                next_state[1] < 0 or
+                next_state[1] >= self.size[1]
+             ):
+            reward = -10
+            done = True
+        elif next_state == self.goal:
+            reward = 10
+            done = True
         
-        done = (reward == 10)
 
         return next_state, reward, done
 

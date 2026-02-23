@@ -3,8 +3,8 @@ export class Food {
         this.ROWS = ROWS
         this.COLS = COLS
         this.size = size
-        this.x = 4
-        this.y = 1
+        this.x = 18
+        this.y = 5
     }
 
     draw(ctx) {

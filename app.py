@@ -1,38 +1,16 @@
-import numpy as np
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, request
+from rllib import ValueIteration, greedy_policy
 from env import Grid
 
-def value_iteration(env, epochs=100, gamma=0.5, theta=1e-5):
-    state_values = np.zeros(env.size)
-    policy = np.zeros(env.size, dtype='U1')
-
-    for _ in range(epochs):
-        V = np.copy(state_values)
-        for row in range(env.size[0]):
-            for col in range(env.size[1]):
-                s = (row, col)
-                Q_val = {}
-                max_Qsa = -float('inf')
-                for a in env.ACTIONS:
-                    next_state, reward, _ = env.simulate(s, a)
-                    Qsa = reward + gamma * V[next_state]
-                    Q_val[a] = Qsa
-                    max_Qsa = max(max_Qsa, Qsa)
-                state_values[s] = max_Qsa
-                policy[s] = max(Q_val, key=Q_val.get)
-        if np.max(np.abs(state_values - V)) < theta:
-            break
-    
-    return state_values, policy
-
 app = Flask(__name__)
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
 @app.route("/send", methods=["POST"])
-def setEnv():
+def init_env():   
     data = request.get_json()
     size = data['size']
     start = data['start']
@@ -41,6 +19,7 @@ def setEnv():
     blocks = []
     for block in blocks_dict:
         blocks.append((block['y'], block['x']))
+
     env = Grid(
         size = (int(size[0]), int(size[1])),
         start = (int(start[0]), int(start[1])),
@@ -48,13 +27,15 @@ def setEnv():
         blocks = blocks
     )
 
-    _, policy = value_iteration(env)
-    # for i in policy:
-    #     for j in i:
-    #         print(j, end=" ")
-    #     print()
-    # print("----------------------------------------------------------------")
-    return {"policy": policy.tolist()}
+    vi = ValueIteration(env, gamma=0.65)
+    state_values = vi.run()
+    policy = greedy_policy(env, state_values, gamma=0.65)
+
+
+    return {
+        "policy": policy.tolist(),
+        "values": state_values.tolist()
+    }
 
 
 
