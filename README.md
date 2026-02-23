@@ -55,6 +55,4 @@ The snake grid is modeled as a **Markov Decision Process (MDP)**
   ## Why This Is Slow
 
   This project computes value functions at every agent step over the entire state space. This makes the agent computationally slow, especially with asynchronous                communication between JavaScript and Flask
-
-
->>>>>>> b0e0aadeebb2a7e13311b8d32f3376679c87cf19
+  
