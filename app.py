@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from rllib import ValueIteration, greedy_policy
 from env import Grid
 
+
 app = Flask(__name__)
 
 
@@ -29,13 +30,10 @@ def init_env():
 
     vi = ValueIteration(env, gamma=0.65)
     state_values = vi.run()
+
     policy = greedy_policy(env, state_values, gamma=0.65)
 
-
-    return {
-        "policy": policy.tolist(),
-        "values": state_values.tolist()
-    }
+    return {"policy": policy.tolist()}
 
 
 
