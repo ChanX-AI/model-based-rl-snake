@@ -4,9 +4,9 @@ export class Snake {
         this.timer = 0
         this.interval = 1
         this.body = [
-            {x: 0, y: 15},
-            {x: 1, y: 15},
-            {x: 2, y: 15}
+            {x: 0, y: 1},
+            // {x: 1, y: 15},
+            // {x: 2, y: 15}
             //{x: 5, y: 5}
             // {x: 19, y: 19},
             // {x: 19, y: 18},
