@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# tes
-=======
 # Model-Based Reinforcement Learning Snake (Value Iteration)
 
 This project implements a **Snake game controlled by a Value Iteration agent**, built to deeply understand **model-based reinforcement learning**,
