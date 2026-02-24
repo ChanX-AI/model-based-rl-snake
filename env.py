@@ -19,7 +19,7 @@ class Grid:
         return states
     
     def _action_space(self):
-        return ["RIGHT", "DOWN", "LEFT", "UP"]
+        return ["R", "D", "L", "U"]
 
     def reset(self):
         self.state = self.start
@@ -29,13 +29,13 @@ class Grid:
     def simulate(self, state, action):
         next_state = list(state)
         
-        if action == "UP":
+        if action == "U":
             next_state[0] = state[0] - 1
-        elif action == "RIGHT":
+        elif action == "R":
             next_state[1] = state[1] + 1
-        elif action == "DOWN":
+        elif action == "D":
             next_state[0] = state[0] + 1
-        elif action == "LEFT":
+        elif action == "L":
             next_state[1] = state[1] - 1
 
         # next_state[0] = min(next_state[0], self.size[0] - 1)
@@ -45,7 +45,7 @@ class Grid:
         # next_state[1] = max(next_state[1], 0)
 
         next_state = tuple(next_state)
-        reward = -1
+        reward = -0.05 * (abs(self.goal[0] - self.start[0]) + abs(self.goal[1] - self.start[1]))
         done = False
 
         if next_state in self.blocks:

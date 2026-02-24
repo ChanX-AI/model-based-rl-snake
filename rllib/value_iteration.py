@@ -18,10 +18,12 @@ class ValueIteration:
                 max_Qsa = float('-inf')
                 for a in self.env.action_space:
                     next_state, reward, done = self.env.simulate(s, a)
+
                     if not done:
                         Qsa = reward + self.gamma * state_values[next_state]
                     else:
                         Qsa = reward
+                        
                     max_Qsa = max(max_Qsa, Qsa)
 
                 state_values[s] = max_Qsa
